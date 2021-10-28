@@ -1,0 +1,29 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "A CLI managerial application for maintaining an employee database that includes a variety of positions and records employee ids, salaries, and managers.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoctorMuch/employee-tracker.git"
+  },
+  "keywords": [
+    "MySQL",
+    "Node.js",
+    "Bootcamp"
+  ],
+  "author": "David F Mueth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoctorMuch/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/DoctorMuch/employee-tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.0"
+  }
+}
