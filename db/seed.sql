@@ -20,3 +20,9 @@ VALUES
   ('Regional Sales Manager', 70000, 5)
   ;
 
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES
+  ('Rutabaga', 'Jones', 2),
+  ('Lenny', 'Coco', 1),
+  ('Judge', 'Reinhold', 4)
+  ;

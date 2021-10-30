@@ -1,5 +1,5 @@
 const express = require('express');
-const { restoreDefaultPrompts } = require('inquirer');
+const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
 const PORT = process.env.PORT || 3001;
@@ -44,6 +44,24 @@ app.get('/api/departments/:id', (req, res) => {
     res.json({
       message: 'success',
       data: row
+    });
+  });
+});
+
+app.get('/api/employees', (req, res) => {
+  const sql = `SELECT employee.*, role.job_title
+              AS role
+              FROM employee
+              LEFT JOIN role
+              ON employee.role_id = role.id`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data: rows
     });
   });
 });
