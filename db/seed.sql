@@ -20,9 +20,16 @@ VALUES
   ('Regional Sales Manager', 70000, 5)
   ;
 
-INSERT INTO employee (first_name, last_name, role_id)
+INSERT INTO manager (first_name, last_name, department_id, role_id)
+VALUES 
+  ('Amanda', 'Huggins', 2, 3),
+  ('Turnip', 'Green', 4, 7),
+  ('Carrot', 'Top', 5, 2)
+  ;
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
-  ('Rutabaga', 'Jones', 2),
-  ('Lenny', 'Coco', 1),
-  ('Judge', 'Reinhold', 4)
+  ('Rutabaga', 'Jones', 2, 1),
+  ('Lenny', 'Coco', 1, 1),
+  ('Judge', 'Reinhold', 4, 3)
   ;

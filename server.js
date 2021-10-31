@@ -1,22 +1,16 @@
 const express = require('express');
-const inquirer = require('inquirer');
-const mysql = require('mysql2');
 
+const cTable = require('console.table');
+const inquirer = require('inquirer');
+
+const queryRoutes = require('./routes/departmentRoutes');
+
+const db = require('./db/connection');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    user: 'root',
-    password: 'd@s@lliver1106',
-    database: 'employee_roster'
-  },
-  console.log('Connected to employee roster database.')
-);
 
 app.get('/api/departments', (req, res) => {
   const sql = `SELECT * FROM department`;
@@ -32,6 +26,7 @@ app.get('/api/departments', (req, res) => {
     });
   });
 });
+
 
 app.get('/api/departments/:id', (req, res) => {
   const sql = `SELECT * FROM department WHERE id = ?`;
@@ -49,21 +44,27 @@ app.get('/api/departments/:id', (req, res) => {
 });
 
 app.get('/api/employees', (req, res) => {
-  const sql = `SELECT employee.*, role.job_title
-              AS role
+  const sql = `SELECT employee.id, employee.first_name, employee.last_name, 
+              role.job_title AS title,
+              department.dept_name AS department, 
+              role.salary,
+              manager.first_name AS manager, manager.last_name AS name
               FROM employee
-              LEFT JOIN role
-              ON employee.role_id = role.id`;
+              JOIN manager ON manager.id = employee.manager_id
+              JOIN role ON employee.role_id = role.id
+              JOIN department ON department.id = role.department_id`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({
-      message: 'success',
-      data: rows
-    });
-  });
+    console.log({ rows });
+    // res.json({
+    //   message: 'success',
+    //   data: rows
+    // });
+  })
+  .then(dbStaffData => console.table(dbStaffData));
 });
 
 app.delete('/api/departments/:id', (req, res) => {
@@ -86,6 +87,26 @@ app.delete('/api/departments/:id', (req, res) => {
   });
 });
 
+app.delete('/api/employees/:id', (req, res) => {
+  const sql = `DELETE FROM employee WHERE id = ?`;
+  const params = [req.params.id];
+  db.query(sql, params, (err, result) => {
+    if(err){
+      res.status(400).json({ error: res.message });
+    } else if (!result.affectedRows) {
+      res.json({
+        message: 'Employee not found!'
+      });
+    } else {
+      res.json({
+        message: 'Employee has been removed.',
+        changes: result.affectedRows,
+        id: req.params.id
+      });
+    }
+  });
+});
+
 app.post('/api/departments', ({ body }, res) => {
   const sql = `INSERT INTO department (dept_name)
               VALUES (?)`;
@@ -100,6 +121,22 @@ app.post('/api/departments', ({ body }, res) => {
       data: body
     });
   });
+});
+
+app.post('/api/employees', (req, res) => ({ body }, res) => {
+  const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+              VALUES (?,?,?,?)`;
+  const params = [body.first_name, body.last_name, body.role_id, body.manager_id];
+  db.query(sql, params, (err, result) => {
+    if(err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({ 
+      message: 'success', 
+      data: body
+    });
+  });           
 });
 
 app.use((req, res) => {
