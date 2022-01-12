@@ -15,16 +15,6 @@ CREATE TABLE role (
   FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
 );
 
-CREATE TABLE manager (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR (30) NOT NULL,
-  last_name VARCHAR(30) NOT NULL,
-  department_id INTEGER,
-  role_id INTEGER,
-  FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL,
-  FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL
-);
-
 CREATE TABLE employee (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR (30),
@@ -32,5 +22,5 @@ CREATE TABLE employee (
   role_id INTEGER,
   manager_id INTEGER,
   FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
-  FOREIGN KEY (manager_id) REFERENCES manager(id) ON DELETE SET NULL
+  FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
