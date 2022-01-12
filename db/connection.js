@@ -13,4 +13,5 @@ const db = mysql.createConnection(
   console.log('Connected to employee roster database.')
 );
 
+
 module.exports = db;
