@@ -1,7 +1,4 @@
-# employee-tracker
-A managerial application for recording and accessing employee names, ids, salaries, and managers.
 
-  []
   # Employee Roster Manager
 
   
@@ -34,7 +31,7 @@ A managerial application for recording and accessing employee names, ids, salari
 
   ---
   ### Questions
-  > GitHub: https://github.com/DoctorMuc/employee-tracker
+  > GitHub: https://github.com/DoctorMuch/employee-tracker
   > Email: davidmueth@gmail.com
 
   ---
